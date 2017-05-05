@@ -25,6 +25,7 @@ import UIKit
 
 public protocol EasyTipViewDelegate : class {
     func easyTipViewDidDismiss(_ tipView : EasyTipView)
+    func easyTopViewDidTapped(_ tipView: EasyTipView)
 }
 
 
@@ -208,9 +209,14 @@ open class EasyTipView: UIView {
             public var dismissOnTap         = true
         }
         
+        public struct Behavior {
+            public var dismissOnTap         = true
+        }
+        
         public var drawing      = Drawing()
         public var positioning  = Positioning()
         public var animating    = Animating()
+        public var behavior     = Behavior()
         public var hasBorder : Bool {
             return drawing.borderWidth > 0 && drawing.borderColor != UIColor.clear
         }
@@ -419,7 +425,11 @@ open class EasyTipView: UIView {
     // MARK:- Callbacks -
     
     func handleTap() {
-        dismiss()
+        self.delegate?.easyTopViewDidTapped(self)
+        
+        if self.preferences.behavior.dismissOnTap {
+            self.dismiss()
+        }
     }
     
     // MARK:- Drawing -
