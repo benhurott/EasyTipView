@@ -25,7 +25,6 @@ import UIKit
 
 public protocol EasyTipViewDelegate : class {
     func easyTipViewDidDismiss(_ tipView : EasyTipView)
-    func easyTopViewDidTapped(_ tipView: EasyTipView)
 }
 
 
@@ -226,6 +225,8 @@ open class EasyTipView: UIView {
     
     // MARK:- Variables -
     
+    open var onTap: () -> Void = { _ in }
+    
     override open var backgroundColor: UIColor? {
         didSet {
             guard let color = backgroundColor
@@ -425,7 +426,7 @@ open class EasyTipView: UIView {
     // MARK:- Callbacks -
     
     func handleTap() {
-        self.delegate?.easyTopViewDidTapped(self)
+        self.onTap()
         
         if self.preferences.behavior.dismissOnTap {
             self.dismiss()
